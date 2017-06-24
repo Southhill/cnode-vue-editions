@@ -1,0 +1,31 @@
+{
+  "name": "vue-koa2-cnode",
+  "version": "0.0.0",
+  "description": "基于vue,koa2的cnode实践",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./bin/index.js",  
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Southhill/vue-koa2-cnode.git"
+  },
+  "keywords": [
+    "vue",
+    "koa2",
+    "cnode"
+  ],
+  "author": "Cao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Southhill/vue-koa2-cnode/issues"
+  },
+  "homepage": "https://github.com/Southhill/vue-koa2-cnode#readme",
+  "dependencies": {
+    "koa": "^2.3.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.25.0"
+  }
+}
