@@ -1,6 +1,6 @@
 {
   "name": "vue-koa2-cnode",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "基于vue,koa2的cnode实践",
   "main": "index.js",
   "scripts": {
