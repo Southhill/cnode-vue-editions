@@ -1,7 +1,8 @@
 # ignore folders
 node_modules
-dist/*.js
+.vscode
 
 # ignore files
 npm_debug.log
 *.log
+dist/*.js

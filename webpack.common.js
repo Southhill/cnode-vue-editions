@@ -1,19 +1,12 @@
-const webpack = require('webpack')
+const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-const path = require('path')
 
 let config = {
     entry: './src/index.js',
-    devtool: 'inline-source-map',
-    devServer: {
-        contentBase: './dist',
-        hot: true
-    }
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js',
-        publicPath: '/'
     },
     module: {
         rules: [
@@ -42,8 +35,7 @@ let config = {
         new CleanWebpackPlugin(['dist']),
         new HtmlWebpackPlugin({
             title: 'custom title'
-        }),
-        new webpack.HotModuleReplacementPlugin()
+        })
     ]
 }
 
