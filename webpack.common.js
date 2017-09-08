@@ -1,9 +1,13 @@
 const path = require('path')
 const webpack  =require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 
+const autoprefixer = require('autoprefixer')({browsers: ['iOS>=7', 'Android>=4.1']}) 
+
 let config = {
+    target: 'web',
     entry: {
         main: './src/index.js',
         vendor: [
@@ -13,14 +17,27 @@ let config = {
     module: {
         rules: [
             {
-                test: /\.css$/,
+                test: /\.js$/,
                 use: [
-                    'style-loader',
-                    'css-loader'
+                    'babel-loader'
                 ]
             },
             {
-                test: /\.(png|svg|jpg|gif)$/,
+                test: /\.pug$/,
+                use: [
+                    'pug-loader'
+                ]
+            },
+            {
+                test: /\.less$/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'less-loader'
+                ]
+            },
+            {
+                test: /\.(png|svg|jpe?g|gif)$/,
                 use: [
                     'file-loader'
                 ]
@@ -47,6 +64,12 @@ let config = {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].[contenthash].js'
     },
+    resolve: {
+        alias: {
+            vue: 'vue/dist/vue.esm.js'
+        },
+        extension: ['js', 'vue', 'json']
+    }
 }
 
 module.exports = config
