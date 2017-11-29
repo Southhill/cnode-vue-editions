@@ -69,10 +69,11 @@ let config = {
         filename: '[name].[contenthash].js'
     },
     resolve: {
-        alias: {
-            vue: 'vue/dist/vue.esm.js'
-        },
         extension: ['js', 'vue', 'json'],
+        alias: {
+            vue: 'vue/dist/vue.esm.js',
+            '@': resolvePath('src')
+        },
         modules: [
             resolvePath('node_modules'),
             resolvePath('src')
