@@ -3,8 +3,8 @@
     <img class="logo" src="" />
     <h2 class="top-head">CNodeJS社区</h2>
     <div class="top-right">
-      <a href="/user/login">登陆</a>
-      <a href="/user/logon">注册</a>
+      <router-link to="/user">登陆</router-link>
+      <router-link to="/user/logon">注册</router-link>
     </div>
   </div>
 </template>
