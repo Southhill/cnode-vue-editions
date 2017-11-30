@@ -1,8 +1,27 @@
-# vue-koa2-cnode
-基于vue, koa2的cnode社区的实践
+# vue-cnode
 
-## Overview
-- 应用框架：采用流行的下一代的koa2web应用框架。
-- 社区数据获取部分：使用cnode的API接口。 
-- 数据存储：使用mongodb非关系型数据库。
-- 模板部分：拟采用pug模板引擎。
+> A Vue.js project
+
+## Build Setup
+
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+
+# run unit tests
+npm run unit
+
+# run all tests
+npm test
+```
+
+For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
