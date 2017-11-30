@@ -24,4 +24,7 @@ npm run unit
 npm test
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## QA
+
+PC端开发中依现在的API接口除PostList页面几乎不能完成其他相应功能，缺少很多API，eg.login|auth.->post
+现在能做到的是在移动端扫描PC端成功登陆后的二维码信息。然后达到登陆效果，而这种方式在PC端实现很不合理，所以暂时停止PC端工程的开发。
