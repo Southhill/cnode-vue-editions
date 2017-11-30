@@ -155,8 +155,8 @@ export const replyUps = async (replyId, sendData) => {
  * 验证ak的正确性，返回相应的用户简略信息.
  * @param {Object{accesstoken: String}} sendData 
  */
-export const authAK = async (sendData) => {
-  const res = await fetcher.post('accesstoken', sendData).catch(err => {
+export const authAK = async (ak) => {
+  const res = await fetcher.post('accesstoken', { accesstoken: ak }).catch(err => {
     Message.error({
       showClose: true,
       message: err.data.error_msg

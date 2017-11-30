@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import ElementUI, { MessageBox, Loading } from 'element-ui'
+import ElementUI, { MessageBox, Loading, Message } from 'element-ui'
 
 Vue.use(ElementUI)
 
@@ -12,6 +12,8 @@ Vue.config.productionTip = false
 Vue.prototype.$loading = Loading.service
 Vue.prototype.$msgbox = MessageBox
 Vue.prototype.$alert = MessageBox.alert
+Vue.prototype.$prompt = MessageBox.prompt
+Vue.prototype.$msg = Message
 
 /* eslint-disable no-new */
 new Vue({

@@ -4,7 +4,6 @@
     <h2 class="top-head">CNodeJS社区</h2>
     <div class="top-right">
       <router-link to="/user">登陆</router-link>
-      <router-link to="/user/logon">注册</router-link>
     </div>
   </div>
 </template>
