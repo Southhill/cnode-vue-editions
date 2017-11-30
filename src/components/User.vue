@@ -13,16 +13,16 @@ export default {
     const ak = localStorage.getItem('accessToken')
     if (typeof ak === 'undefined' || ak === null) {
       const confirmObj = await this.$prompt('请输入accessToken值', '提示', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消'
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
       })
       const res = await authAK(confirmObj.value)
-      debugger
+      if (!res) return
       const data = res.data
       if (data.success) {
-          localStorage.setItem('accessToken', confirmObj.value)        
+        localStorage.setItem('accessToken', confirmObj.value)
       } else {
-        this.$msg.error(`认证ak失败，${data}`)                  
+        this.$msg.error(`认证ak失败，${data.error_msg}`)
       }
     }
   }
