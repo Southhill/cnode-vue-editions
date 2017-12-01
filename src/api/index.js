@@ -9,10 +9,7 @@ export const getTopics = async (params = {}) => {
   try {
     const res = await fetcher.get('topics', { params })
     const data = res.data.data
-    return data.map(item => Object.assign({}, item, {
-      last_reply_at_locale: moment(item.last_reply_at).fromNow(),
-      create_at_locale: moment(item.create_at).fromNow()
-    }))
+    return data
   } catch (error) {
     Message.error({
       showClose: true,

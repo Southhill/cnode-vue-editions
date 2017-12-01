@@ -18,6 +18,9 @@ let fetcher = axios.create({
 fetcher.interceptors.request.use((config) => {
   if (config.method === 'get') {
     config.params = serializeReqParams(config.params)
+  } else if (config.method === 'post') {
+    const ak = sessionStorage.getItem('accessToken')
+    config.data = Object.assign({}, { accesstoken: ak }, config.data)
   }
   // console.log('interceptors use config:', config)
   return config

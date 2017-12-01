@@ -4,7 +4,7 @@
           <img class="avatar" :src="post.author.avatar_url" alt="post.author.loginname"/>
           <div class="title">
              <h3><span class="title-tab" :class="{'title-tab-light': post.good || post.top}" v-text="tab2Name(post)"></span><span class="title-content">{{ post.title }}</span></h3>
-             <div class="title-extra"><span>{{ post.create_at_locale }}</span> · <a :href="`${siteUrl}/user/${post.author.loginname}`" title="post.author.loginname">{{ post.author.loginname }}</a></div>
+             <div class="title-extra"><span>{{ post.create_at | localeTime }}</span> · <a :href="`${siteUrl}/user/${post.author.loginname}`" title="post.author.loginname">{{ post.author.loginname }}</a></div>
           </div>
           <div class="reply">
               <span>{{ post.reply_count }}</span>

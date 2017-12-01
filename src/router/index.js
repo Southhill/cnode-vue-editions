@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import HelloWorld from '@/components/HelloWorld'
 import Home from '@/components/Home'
 import User from '@/components/User'
 
@@ -16,8 +15,15 @@ export default new Router({
     },
     {
       path: '/user',
-      name: 'user',
-      component: User
+      component: User,
+      children: [
+        {
+          path: ':name',
+          name: 'user',
+          component: User,
+          props: true
+        }
+      ]
     }
   ]
 })
