@@ -51,7 +51,7 @@ export default {
 .home-container {
   width: 80%;
   margin: 0 auto;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 .topics {
   display: flex;
@@ -69,7 +69,7 @@ export default {
     &.active {
       background-color: #80BD01;
       color: #FFFFE7;
-      border-radius: 5px;
+      border-radius: 3px;
     }
   }
 }

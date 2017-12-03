@@ -10,15 +10,33 @@
           <span>{{ user.loginname }}</span>
         </div>
         <span>{{ user.score }} 积分</span>
-        <span><icon name="github" scale="1.5"></icon> @{{ user.githubUsername }}</span>  
+        <span><icon name="github" scale="1.5"></icon> @{{ user.githubUsername }}</span>
         <span style="color: #C2B0AB">注册于{{ user.create_at | localeTime }}</span>
       </div>
     </div>
     <div class="card topics-card">
-      <div class="topics-card-header">最近创建的话题</div>
+      <div class="card-header">最近创建的话题</div>
+      <div v-if="user.recent_topics && user.recent_topics.length > 0" class="card-content">
+        <div v-for="(topic, index) in user.recent_topics" class="card-item topics-item" v-if="index < 5" :key="index">
+          <router-link :to="`/user/${topic.author.loginname}`" class="card-item-avatar"><img :src="topic.author.avatar_url" alt="avatar"/></router-link>
+          <router-link class="card-item-title" :to="`/post/${topic.id}`">{{ topic.title }}</router-link>
+          <span class="card-item-time">最新回复于 {{ topic.last_reply_at | localeTime }}</span>
+        </div>
+        <div v-if="user.recent_topics.length > 5" class="card-item">查看更多»</div>
+      </div>
+      <div v-else class="card-nocontent">无话题</div>
     </div>
     <div class="card reply-card">
-      <div class="reply-card-header">最近参与的话题</div>
+      <div class="card-header">最近参与的话题</div>
+      <div v-if="user.recent_replies && user.recent_replies.length > 0" class="card-content">
+        <div v-for="(reply, index) in user.recent_replies" class="card-item replies-item" v-if="index < 5" :key="index">
+          <router-link :to="`/user/${reply.author.loginname}`" class="card-item-avatar"><img :src="reply.author.avatar_url" alt="avatar"/></router-link>
+          <router-link class="card-item-title" :to="`/post/${reply.id}`">{{ reply.title }}</router-link>
+          <span class="card-item-time">最新回复于 {{ reply.last_reply_at | localeTime }}</span>
+        </div>
+        <div v-if="user.recent_replies.length > 5" class="card-item">查看更多»</div>
+      </div>
+      <div v-else class="card-nocontent">无话题</div>
     </div>
   </div>
 </template>
@@ -64,6 +82,12 @@ export default {
       this.$msg.error(`认证ak失败，${data.error_msg}`)
       this.$router.go(-1)
     }
+  },
+  watch: {
+    '$route.params.name': async function (to) {
+      const userRes = await getUser(to)
+      this.user = userRes
+    }
   }
 }
 </script>
@@ -74,8 +98,56 @@ export default {
   .card {
     margin: 10px auto;
     border: 1px solid #E5E5E5;
-    border-radius: 5px;
+    border-radius: 3px;
     text-align: left;
+    &-header {
+      padding: 10px;
+      border-bottom: 1px solid #E5E5E5;
+      background-color: #F6F6F6;
+    }
+    &-content {
+      padding: 10px;
+    }
+    &-nocontent {
+      padding: 10px 10px 20px;
+    }
+    &-item {
+      display: flex;
+      height: 30px;
+      line-height: 30px;
+      padding: 10px;
+      border-bottom: 1px solid #F3F3F3;
+      cursor: pointer;
+      &:nth-last-child(1) {
+        border-bottom: 0 none;
+        padding-bottom: 0;
+      }
+      &-avatar {
+        height: 100%;
+        outline: none;
+        margin-right: 10px;
+        > img {
+          height: 100%;
+          outline: none;
+        }
+      }
+      &-title {
+        width: 70%;
+        flex-basis: 70%;
+        font-weight: bold;
+        color: #1188D4;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+      &-time {
+        flex-grow: 1;
+        color: #C1ABC1;
+        text-align: right;
+        font-size: .8em;
+      }
+    }
   }
 }
 .user-card {
@@ -95,6 +167,7 @@ export default {
     }
     > span {
       flex-basis: 30px;
+      margin: 10px 0;
     }
   }
 }

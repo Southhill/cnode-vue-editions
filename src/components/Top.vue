@@ -1,9 +1,9 @@
 <template>
   <div class="top-container">
-    <router-link to="/" tag="div" class="top-home"><img class="logo" src="https://cnodejs.org/public/images/cnodejs_light.svg" alt="logo" /></router-link>    
+    <router-link to="/" tag="div" class="top-home"><img class="logo" src="https://cnodejs.org/public/images/cnodejs_light.svg" alt="logo" /></router-link>
     <h2 class="top-head">CNodeJS社区</h2>
     <div class="top-right">
-      <router-link :to="{ path: '/user' }"><i class="el-icon-menu"></i></router-link>
+      <router-link :to="{ path: '/user' }"><icon name="user" scale="1.5"></icon></router-link>
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@ export default {
       flex-basis: 100px;
     }
   }
-  
+
   .top-head {
     width: 60%;
     flex-basis: 60%;
@@ -47,6 +47,9 @@ export default {
       color: #eee;
       font-size: 16px;
       margin: 0 10px;
+      > svg {
+        vertical-align: middle;
+      }
     }
   }
 }

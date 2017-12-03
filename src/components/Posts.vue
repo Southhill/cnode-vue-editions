@@ -72,7 +72,7 @@ export default {
     &-tab {
         display: inline-block;
         margin-right: 5px;
-        border-radius: 5px;
+        border-radius: 3px;
         background-color: #E5E5E5;
         color: #AC9999;
         padding: 2px 4px;
