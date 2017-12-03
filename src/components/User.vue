@@ -15,26 +15,26 @@
       </div>
     </div>
     <div class="card topics-card">
-      <div class="card-header">最近创建的话题</div>
+      <div class="card-header">最近创建的话题 {{user.recent_topics ? user.recent_topics.length : ''}}</div>
       <div v-if="user.recent_topics && user.recent_topics.length > 0" class="card-content">
-        <div v-for="(topic, index) in user.recent_topics" class="card-item topics-item" v-if="index < 5" :key="index">
+        <div v-for="(topic, index) in user.recent_topics" class="card-item topics-item" v-if="index < 5 || (index >=5 && hasMoreTopics)" :key="index">
           <router-link :to="`/user/${topic.author.loginname}`" class="card-item-avatar"><img :src="topic.author.avatar_url" alt="avatar"/></router-link>
           <router-link class="card-item-title" :to="`/post/${topic.id}`">{{ topic.title }}</router-link>
           <span class="card-item-time">最新回复于 {{ topic.last_reply_at | localeTime }}</span>
         </div>
-        <div v-if="user.recent_topics.length > 5" class="card-item">查看更多»</div>
+        <div v-if="user.recent_topics.length > 5" class="card-item"  @click="toggleMoreList('hasMoreTopics')">{{ hasMoreTopics ? '更少一些«': '查看更多»' }}</div>
       </div>
       <div v-else class="card-nocontent">无话题</div>
     </div>
     <div class="card reply-card">
-      <div class="card-header">最近参与的话题</div>
+      <div class="card-header">最近参与的话题 {{user.recent_replies ? user.recent_replies.length : ''}}</div>
       <div v-if="user.recent_replies && user.recent_replies.length > 0" class="card-content">
-        <div v-for="(reply, index) in user.recent_replies" class="card-item replies-item" v-if="index < 5" :key="index">
+        <div v-for="(reply, index) in user.recent_replies" class="card-item replies-item" v-if="index < 5  || (index >=5 && hasMoreReplies)" :key="index">
           <router-link :to="`/user/${reply.author.loginname}`" class="card-item-avatar"><img :src="reply.author.avatar_url" alt="avatar"/></router-link>
           <router-link class="card-item-title" :to="`/post/${reply.id}`">{{ reply.title }}</router-link>
           <span class="card-item-time">最新回复于 {{ reply.last_reply_at | localeTime }}</span>
         </div>
-        <div v-if="user.recent_replies.length > 5" class="card-item">查看更多»</div>
+        <div v-if="user.recent_replies.length > 5" class="card-item" @click="toggleMoreList('hasMoreReplies')">{{ hasMoreReplies ? '更少一些«' : '查看更多»' }}</div>
       </div>
       <div v-else class="card-nocontent">无话题</div>
     </div>
@@ -53,7 +53,9 @@ export default {
   },
   data () {
     return {
-      user: {}
+      user: {},
+      hasMoreTopics: false,
+      hasMoreReplies: false
     }
   },
   async created () {
@@ -88,6 +90,11 @@ export default {
       const userRes = await getUser(to)
       this.user = userRes
     }
+  },
+  methods: {
+    toggleMoreList (key, status) {
+      this[key] = status || !this[key]
+    }
   }
 }
 </script>
@@ -95,6 +102,7 @@ export default {
 .user-container {
   width: 80%;
   margin: 0 auto;
+  margin-bottom: 50px;
   .card {
     margin: 10px auto;
     border: 1px solid #E5E5E5;

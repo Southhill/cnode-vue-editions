@@ -5,7 +5,7 @@ export const serializeReqParams = (params = {}) => {
       if (params[cur].length > 0) {
         obj[cur] = params[cur]
       }
-    } else {
+    } else if (typeof params[cur] !== 'undefined') {
       obj[cur] = params[cur]
     }
     return obj
