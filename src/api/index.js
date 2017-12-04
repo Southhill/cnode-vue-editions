@@ -18,14 +18,14 @@ export const getTopics = async (params = {}) => {
   }
 }
 
-export const getTipic = async (id, params) => {
+export const getTipic = async (id, params = {}) => {
   try {
-    const res = await fetcher.get(`topics/${id}`, { params })
+    const res = await fetcher.get(`topic/${id}`, { params })
     return res.data.data
   } catch (error) {
     Message.error({
       showClose: true,
-      message: error.response.data.error_msg
+      message: error.response ? error.response.data.error_msg : error.response
     })
   }
 }
@@ -110,20 +110,20 @@ export const postTopic = async (sendData) => {
 }
 
 /* eslint-enable */
-export const postCollectTipic = async (sendData, hasCollect = true) => {
-  const url = hasCollect ? 'topic_collect/collect' : 'topic_collect/de_collect'
-  const tip = hasCollect ? '主题收藏成功!' : '主题取消收藏成功!'
+export const postCollectTipic = async (sendData, toCollect = true) => {
+  const url = toCollect ? 'topic_collect/collect' : 'topic_collect/de_collect'
+  const tip = toCollect ? '主题收藏' : '主题取消收藏'
   try {
     const res = await fetcher.post(url, sendData)
     if (res.data.success) {
       Message.success({
         showClose: true,
-        message: tip
+        message: `${tip}成功！`
       })
     } else {
       Message.error({
         showClose: true,
-        message: res.data.error_msg
+        message: `${tip}失败！`
       })
     }
     return res.data.success

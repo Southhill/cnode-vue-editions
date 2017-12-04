@@ -11,7 +11,7 @@
         </div>
         <span>{{ user.score }} 积分</span>
         <span><icon name="github" scale="1.5"></icon> @{{ user.githubUsername }}</span>
-        <span style="color: #C2B0AB">注册于{{ user.create_at | localeTime }}</span>
+        <time style="color: #C2B0AB">注册于{{ user.create_at | localeTime }}</time>
       </div>
     </div>
     <div class="card topics-card">
@@ -20,7 +20,7 @@
         <div v-for="(topic, index) in user.recent_topics" class="card-item topics-item" v-if="index < 5 || (index >=5 && hasMoreTopics)" :key="index">
           <router-link :to="`/user/${topic.author.loginname}`" class="card-item-avatar"><img :src="topic.author.avatar_url" alt="avatar"/></router-link>
           <router-link class="card-item-title" :to="`/post/${topic.id}`">{{ topic.title }}</router-link>
-          <span class="card-item-time">最新回复于 {{ topic.last_reply_at | localeTime }}</span>
+          <time class="card-item-time">最新回复于 {{ topic.last_reply_at | localeTime }}</time>
         </div>
         <div v-if="user.recent_topics.length > 5" class="card-item"  @click="toggleMoreList('hasMoreTopics')">{{ hasMoreTopics ? '更少一些«': '查看更多»' }}</div>
       </div>
@@ -32,7 +32,7 @@
         <div v-for="(reply, index) in user.recent_replies" class="card-item replies-item" v-if="index < 5  || (index >=5 && hasMoreReplies)" :key="index">
           <router-link :to="`/user/${reply.author.loginname}`" class="card-item-avatar"><img :src="reply.author.avatar_url" alt="avatar"/></router-link>
           <router-link class="card-item-title" :to="`/post/${reply.id}`">{{ reply.title }}</router-link>
-          <span class="card-item-time">最新回复于 {{ reply.last_reply_at | localeTime }}</span>
+          <time class="card-item-time">最新回复于 {{ reply.last_reply_at | localeTime }}</time>
         </div>
         <div v-if="user.recent_replies.length > 5" class="card-item" @click="toggleMoreList('hasMoreReplies')">{{ hasMoreReplies ? '更少一些«' : '查看更多»' }}</div>
       </div>

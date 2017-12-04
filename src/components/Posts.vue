@@ -3,8 +3,8 @@
       <div class="posts-item" v-for="(post, index) in posts" :key="index">
           <img class="avatar" :src="post.author.avatar_url" alt="post.author.loginname"/>
           <div class="title">
-             <h3><span class="title-tab" :class="{'title-tab-light': post.good || post.top}" v-text="tab2Name(post)"></span><span class="title-content">{{ post.title }}</span></h3>
-             <div class="title-extra"><span>{{ post.create_at | localeTime }}</span> · <a :href="`${siteUrl}/user/${post.author.loginname}`" title="post.author.loginname">{{ post.author.loginname }}</a></div>
+             <router-link tag="h3" class="title-link" :to="`/post/${post.id}`"><span class="title-tag" :class="{'title-tag-light': post.good || post.top}" v-text="tab2Name(post)"></span><a class="title-content">{{ post.title }}</a></router-link>
+             <div class="title-extra"><time>{{ post.create_at | localeTime }}</time> · <router-link tag="a" :to="`/user/${post.author.loginname}`">{{ post.author.loginname }}</router-link></div>
           </div>
           <div class="reply">
               <span>{{ post.reply_count }}</span>
@@ -68,8 +68,9 @@ export default {
     > h3 {
       text-align: left;
       margin-bottom: 5px;
+      text-decoration: none;
     }
-    &-tab {
+    &-tag {
         display: inline-block;
         margin-right: 5px;
         border-radius: 3px;
@@ -87,6 +88,13 @@ export default {
       color: #008cba;
       cursor: pointer;
       overflow: hidden;
+      text-decoration: none;
+      &:link {
+        color: #008cba;
+      }
+      &:visited {
+        color: #641A8B;
+      }
       &:hover {
         text-decoration: underline;
       }

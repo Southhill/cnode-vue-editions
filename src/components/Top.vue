@@ -35,6 +35,7 @@ export default {
     font-size: 18px;
     line-height: 50px;
     margin: 0;
+    text-align: center;
   }
   .top-right {
     width: calc(100% - 60%);

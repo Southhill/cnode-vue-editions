@@ -11,6 +11,8 @@ import 'vue-awesome/icons'
 import App from './App'
 import router from './router'
 
+// import '@/less/global'
+
 Vue.use(ElementUI)
 
 moment.locale('zh-cn')
@@ -28,6 +30,16 @@ window.moment = moment
 // 全局过滤器
 Vue.filter('localeTime', function (value) {
   return moment(value).fromNow()
+})
+Vue.filter('tagName', function (tag) {
+  return {
+    top: '置顶',
+    good: '精华',
+    ask: '问答',
+    share: '分享',
+    job: '招聘',
+    dev: '开发测试'
+  }[tag] || ''
 })
 // 全局组件
 Vue.component('icon', Icon)

@@ -31,7 +31,8 @@ export default {
     }
   },
   async created () {
-    const data = await getTopics()
+    const tab = this.$route.query.tab || ''
+    const data = await getTopics({ tab })
     this.topicsList = data
   },
   methods: {
