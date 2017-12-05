@@ -16,7 +16,7 @@
     </div>
     <div class="card topics-card">
       <div class="card-header">最近创建的话题 {{user.recent_topics ? user.recent_topics.length : ''}}</div>
-      <div v-if="user.recent_topics && user.recent_topics.length > 0" class="card-content">
+      <div v-if="user.recent_topics.length > 0" class="card-content">
         <div v-for="(topic, index) in user.recent_topics" class="card-item topics-item" v-if="index < 5 || (index >=5 && hasMoreTopics)" :key="index">
           <router-link :to="`/user/${topic.author.loginname}`" class="card-item-avatar"><img :src="topic.author.avatar_url" alt="avatar"/></router-link>
           <router-link class="card-item-title" :to="`/post/${topic.id}`">{{ topic.title }}</router-link>
@@ -28,7 +28,7 @@
     </div>
     <div class="card reply-card">
       <div class="card-header">最近参与的话题 {{user.recent_replies ? user.recent_replies.length : ''}}</div>
-      <div v-if="user.recent_replies && user.recent_replies.length > 0" class="card-content">
+      <div v-if="user.recent_replies.length > 0" class="card-content">
         <div v-for="(reply, index) in user.recent_replies" class="card-item replies-item" v-if="index < 5  || (index >=5 && hasMoreReplies)" :key="index">
           <router-link :to="`/user/${reply.author.loginname}`" class="card-item-avatar"><img :src="reply.author.avatar_url" alt="avatar"/></router-link>
           <router-link class="card-item-title" :to="`/post/${reply.id}`">{{ reply.title }}</router-link>
@@ -53,7 +53,10 @@ export default {
   },
   data () {
     return {
-      user: {},
+      user: {
+        recent_topics: [],
+        recent_replies: []
+      },
       hasMoreTopics: false,
       hasMoreReplies: false
     }

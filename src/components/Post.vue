@@ -2,14 +2,14 @@
   <section class="post-container">
       <header class="post-header">
           <h3><span class="topic-tag" v-if="topic.top || topic.good">{{ topic.top ? '置顶' : '精华' }}</span>{{ topic.title }}</h3>
-          <span>发布于{{ topic.create_at | localeTime }} · 作者 <router-link tag="span" class="hoverline" :to="`/user/${topic.author && topic.author.loginname}`">{{ topic.author && topic.author.loginname }}</router-link> · {{ topic.visit_count }}次浏览 · 来自<router-link tag="span" class="hoverline" :to="{ name: 'home', query: { tab: topic.tab } }">{{ topic.tab | tagName }}</router-link></span>
+          <span>发布于{{ topic.create_at | localeTime }} · 作者 <router-link tag="span" class="hoverline" :to="`/user/${topic.author.loginname}`">{{ topic.author.loginname }}</router-link> · {{ topic.visit_count }}次浏览 · 来自<router-link tag="span" class="hoverline" :to="{ name: 'home', query: { tab: topic.tab } }">{{ topic.tab | tagName }}</router-link></span>
           <el-button @click="setCollectTopic(topic.id, !isCollect)" v-if="hasOwner" :class="isCollect ? 'post-collected-btn' : 'post-collect-btn'">{{ isCollect ? '取消收藏' : ' 收藏 ' }}</el-button>
       </header>
       <article v-html="topic.content"></article>
       <section class="reply-container">
-          <header>{{ topic.reply_count }} 回复数</header>
+          <header class="reply-header">{{ topic.reply_count }} 回复数</header>
           <template v-if="topic.reply_count">
-              <reply v-for="(reply, index) in topic.replies" :key="index" :reply="reply"></reply>
+              <reply v-for="(reply, index) in topic.replies" :key="index" :index="index" :reply="reply" :loginname="topic.author.loginname"></reply>
           </template>
           <template v-else><div class="noreply">还没有回复，要不要消灭0回复惨案？回复</div></template>
       </section>
@@ -17,6 +17,7 @@
 </template>
 <script>
 import { getTipic, postCollectTipic } from '@/api/index'
+import { upsCountForGoodReply } from '@/constants/ux.const'
 import Reply from '@/components/Reply'
 export default {
   name: 'Post',
@@ -25,7 +26,10 @@ export default {
   },
   data () {
     return {
-      topic: {},
+      topic: {
+        author: {}
+      },
+      replies: [],
       hasOwner: false,
       isCollect: false
     }
@@ -34,9 +38,14 @@ export default {
     const id = this.$route.params.id
     const data = await getTipic(id)
     const ak = sessionStorage.getItem('accessToken')
-    this.topic = data
-    this.isCollect = data.is_collect
+    let replies = data.replies.concat()
+    let goodReplies = replies.filter(reply => {
+      return reply.ups.length > upsCountForGoodReply
+    }).map(reply2 => Object.assign({}, reply2, { isGoodReply: true })).sort((a, b) => b.ups.length - a.ups.length)
     this.hasOwner = !!ak
+    this.topic = data
+    this.replies = goodReplies.concat(data.replies)
+    this.isCollect = data.is_collect
   },
   methods: {
     async setCollectTopic (id, toCollect) {
@@ -95,5 +104,9 @@ export default {
         border-radius: 5px;
     }
 }
-
+.reply-header {
+    background-color: #F6F6F6;
+    border-bottom: 1px solid #F4F4F4;
+    padding: 10px 5px;
+}
 </style>
