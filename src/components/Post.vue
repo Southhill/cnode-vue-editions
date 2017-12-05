@@ -9,7 +9,7 @@
       <section class="reply-container">
           <header class="reply-header">{{ topic.reply_count }} 回复数</header>
           <template v-if="topic.reply_count">
-              <reply v-for="(reply, index) in topic.replies" :key="index" :index="index" :reply="reply" :loginname="topic.author.loginname"></reply>
+              <reply v-for="(reply, index) in replies" :key="index" :reply="reply" :loginname="topic.author.loginname"></reply>
           </template>
           <template v-else><div class="noreply">还没有回复，要不要消灭0回复惨案？回复</div></template>
       </section>
@@ -38,13 +38,14 @@ export default {
     const id = this.$route.params.id
     const data = await getTipic(id)
     const ak = sessionStorage.getItem('accessToken')
-    let replies = data.replies.concat()
-    let goodReplies = replies.filter(reply => {
-      return reply.ups.length > upsCountForGoodReply
-    }).map(reply2 => Object.assign({}, reply2, { isGoodReply: true })).sort((a, b) => b.ups.length - a.ups.length)
+    let replies = data.replies.map((reply, idx) => Object.assign({}, reply, { floor: idx + 1, isGoodReply: reply.ups.length >= upsCountForGoodReply }))
+    // let goodReplies = replies.filter(reply => {
+    //   return reply.ups.length >= upsCountForGoodReply
+    // }).map(reply2 => Object.assign({}, reply2, { isGoodReply: true }))
+    // .sort((a, b) => b.ups.length - a.ups.length)
     this.hasOwner = !!ak
     this.topic = data
-    this.replies = goodReplies.concat(data.replies)
+    this.replies = replies
     this.isCollect = data.is_collect
   },
   methods: {

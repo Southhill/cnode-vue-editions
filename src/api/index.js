@@ -155,11 +155,11 @@ export const addReplies = async (topicId, sendData) => {
   }
 }
 
-export const replyUps = async (replyId, sendData) => {
+export const replyUps = async (replyId, sendData = {}) => {
   try {
     const res = await fetcher.post(`reply/${replyId}/ups`, sendData)
     if (res.data.success) {
-      return res.data.action
+      return res.data
     } else {
       Message.error({
         showClose: true,
