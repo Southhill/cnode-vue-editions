@@ -9,10 +9,10 @@
           </div>
           <div class="reply-content-text" v-html="reply.content"></div>
       </div>
-      <span class="btn-group" @click=toggleReplyUps($event)>
+      <span class="btn-group">
           <span v-show="upsCount">{{ upsCount }}</span>
-          <icon :style="{color: hadUps ? '#F4FCF0' : ''}" v-show="upsCount || showUps" name="thumbs-o-up" />
-          <icon name="reply" />
+          <i @click=toggleReplyUps(reply.id)><icon :style="{color: hadUps ? '#12D841' : ''}" v-show="upsCount || showUps" name="thumbs-o-up" /></i>
+          <i><icon name="reply" /></i>
       </span>
   </div>
 </template>
@@ -38,7 +38,7 @@ export default {
     return {
       showUps: false,
       upsCount: 0,
-      hadUps: false
+      hadUps: this.reply.is_uped
     }
   },
   mounted () {
@@ -48,15 +48,13 @@ export default {
     toggleShowUps (status) {
       this.showUps = status || !this.showUps
     },
-    async toggleReplyUps (evt, id) {
-      console.log('evt', evt)
-      debugger
+    async toggleReplyUps (id) {
       const res = await replyUps(id)
       if (res.success) {
         if (res.action === 'up') {
           this.upsCount = this.upsCount + 1
           this.hadUps = true
-        } else {
+        } else if (res.action === 'down') {
           this.upsCount = this.upsCount - 1
           this.hadUps = false
         }
