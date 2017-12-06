@@ -12,19 +12,19 @@
           <template v-if="topic.reply_count">
               <reply v-for="(reply, index) in replies" :key="index" :reply="reply" :publicMsg="publicMsg"></reply>
               <div v-show="showEditor" class="reply-editor">
-                <vue-editor class="reply-editor-body" v-model="replyContent" placeholder="editorPlaceholder"></vue-editor>
+                <vue-editor key="replyEditor" class="reply-editor-body" v-model="replyContent" placeholder="editorPlaceholder"></vue-editor>
                 <el-button class="reply-editor-btn" @click="handleReply()">回复</el-button>
               </div>
           </template>
           <template v-else>
             <div class="noreply">还没有回复，要不要消灭0回复惨案？<span class="like-link" @click="showEditor = true">回复</span></div>
             <div v-show="showEditor" class="reply-editor" @keyup.esc="showEditor = false">
-              <vue-editor class="reply-editor-body" v-model="replyContent" placeholder="editorPlaceholder"></vue-editor>
+              <vue-editor key="noreplyEditor" class="reply-editor-body" v-model="replyContent" placeholder="editorPlaceholder"></vue-editor>
               <el-button class="reply-editor-btn" @click="handleReply()">回复</el-button>
             </div>
           </template>
       </section>
-      <form-topic :topicId="topic.id" :topicForm="topicForm"></form-topic>
+      <form-topic :topicId="topic.id"></form-topic>
   </div>
 </template>
 <script>
@@ -43,11 +43,6 @@ export default {
     return {
       topic: {
         author: {}
-      },
-      topicForm: {
-        title: '',
-        tab: '',
-        content: ''
       },
       publicMsg: {},
       replies: [],
@@ -85,12 +80,6 @@ export default {
       this.hasOwner = !!ak
       if (data.author.loginname === sessionStorage.getItem('loginname')) {
         this.isOwnTopic = true
-      }
-      const { title, tab, content } = data
-      this.topicForm = {
-        title,
-        tab,
-        content
       }
       this.topic = data
       this.replies = replies

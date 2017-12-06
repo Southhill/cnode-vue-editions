@@ -10,7 +10,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="内容：" prop="content">
-        <vue-editor v-model="formInput.content" :placeholder="editorPlaceholder"></vue-editor>
+        <vue-editor key="topicEditor" v-model="formInput.content" :placeholder="editorPlaceholder"></vue-editor>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -24,7 +24,7 @@
 import { VueEditor } from 'vue2-editor'
 import { Message } from 'element-ui'
 
-import { postTopic } from '@/api/index'
+import { postTopic, getTopic } from '@/api/index'
 import { editorPlaceholder } from '@/constants/ux.const'
 
 const tabs = [
@@ -39,10 +39,6 @@ export default {
   props: {
     topicId: {
       type: String
-    },
-    topicForm: {
-      type: Object,
-      default: () => ({ title: '', tab: '', content: '' })
     }
   },
   components: {
@@ -67,9 +63,11 @@ export default {
     })
   },
   watch: {
-    'isEdit': function (value) {
+    'isEdit': async function (value) {
       if (value === true) {
-        this.formInput = this.topicForm
+        const data = await getTopic(this.topicId, { mdrender: false })
+        const { title, tab, content } = data
+        this.formInput = { title, tab, content }
       }
     }
   },
