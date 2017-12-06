@@ -10,8 +10,9 @@
           <span>{{ user.loginname }}</span>
         </div>
         <span>{{ user.score }} 积分</span>
-        <span><icon name="github" scale="1.5"></icon> @{{ user.githubUsername }}</span>
+        <a class="user-github" :href="`https://www.github.com/${user.githubUsername}`" target="_blank"><span><icon name="github" scale="1.5"></icon> @{{ user.githubUsername }}</span></a>
         <time style="color: #C2B0AB">注册于{{ user.create_at | localeTime }}</time>
+        <el-button class="add-topic-btn" @click="showForm">发布话题</el-button>
       </div>
     </div>
     <div class="card topics-card">
@@ -38,6 +39,7 @@
       </div>
       <div v-else class="card-nocontent">无话题</div>
     </div>
+    <form-topic></form-topic>
   </div>
 </template>
 <script>
@@ -81,6 +83,7 @@ export default {
     const data = res.data
     if (data.success) {
       sessionStorage.setItem('accessToken', ak)
+      sessionStorage.setItem('loginname', data.loginname)
       const userRes = await getUser(data.loginname)
       this.user = userRes
     } else {
@@ -97,6 +100,9 @@ export default {
   methods: {
     toggleMoreList (key, status) {
       this[key] = status || !this[key]
+    },
+    showForm () {
+      this.$bus.$emit('showForm', true)
     }
   }
 }
@@ -166,6 +172,7 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 10px;
+    position: relative;
     .avatar {
       width: 100%;
       > img {
@@ -179,6 +186,24 @@ export default {
     > span {
       flex-basis: 30px;
       margin: 10px 0;
+    }
+    .user-github {
+      color: #333333;
+      text-decoration: none;
+      width: 100px;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    .add-topic-btn {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      color: #fff;
+      background-color: #80BD01;
+      &:hover {
+        background-color: #6ba44e;
+      }
     }
   }
 }

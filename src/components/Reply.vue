@@ -1,23 +1,28 @@
 <template>
-  <div :class="['reply-container', { 'good-reply': reply.isGoodReply }]" @mouseover="toggleShowUps(true)" @mouseout="toggleShowUps(false)">
+  <div :class="['reply-container', { 'good-reply': reply.isGoodReply }]" @mouseover="toggleShowUps(true)" @mouseout="toggleShowUps(false)" @keyup.esc="showEditor = false">
       <router-link class="reply-avatar" :to="`/user/${reply.author.loginname}`"><img :src="reply.author.avatar_url" :alt="reply.author.loginname"></router-link>
       <div class="reply-content">
           <div class="reply-content-header">
             <router-link class="name" tag="span" :to="`/user/${reply.author.loginname}`">{{ reply.author.loginname }}</router-link>
             <span class="extra"><router-link class="reply-floor" tag="span" :to="`#rl${reply.floor}`">{{ reply.floor }}楼</router-link> · <span>{{ reply.create_at | localeTime }}</span></span>
-            <span class="author-tag" v-if="loginname === reply.author.loginname">作者</span>
+            <span class="author-tag" v-if="publicMsg.loginname === reply.author.loginname">作者</span>
           </div>
           <div class="reply-content-text" v-html="reply.content"></div>
+          <div v-show="showEditor" class="reply-editor">
+            <vue-editor class="reply-editor-body" v-model="replyContent"></vue-editor>
+            <el-button class="reply-editor-btn" @click="handleReply()">回复</el-button>
+          </div>
       </div>
       <span class="btn-group">
           <span v-show="upsCount">{{ upsCount }}</span>
-          <i @click=toggleReplyUps(reply.id)><icon :style="{color: hadUps ? '#12D841' : ''}" v-show="upsCount || showUps" name="thumbs-o-up" /></i>
-          <i><icon name="reply" /></i>
+          <i @click="toggleReplyUps(reply.id)"><icon :style="{color: hadUps ? '#12D841' : ''}" v-show="upsCount || showUps" name="thumbs-o-up" /></i>
+          <i @click="showEditor = true"><icon name="reply" /></i>
       </span>
   </div>
 </template>
 <script>
-import { replyUps } from '@/api/index'
+import { VueEditor } from 'vue2-editor'
+import { replyUps, addReplies } from '@/api/index'
 export default {
   name: 'reply',
   props: {
@@ -29,16 +34,21 @@ export default {
         author: {}
       }
     },
-    loginname: {
-      type: String,
+    publicMsg: {
+      type: Object,
       required: true
     }
+  },
+  components: {
+    VueEditor
   },
   data () {
     return {
       showUps: false,
+      showEditor: false,
       upsCount: 0,
-      hadUps: this.reply.is_uped
+      hadUps: this.reply.is_uped,
+      replyContent: `<a href="/user/${this.reply.author.loginname}">@${this.reply.author.loginname}</a>`
     }
   },
   mounted () {
@@ -58,6 +68,12 @@ export default {
           this.upsCount = this.upsCount - 1
           this.hadUps = false
         }
+      }
+    },
+    async handleReply () {
+      const id = await addReplies(this.publicMsg.id, { reply_id: this.reply.id, content: this.replyContent })
+      if (id) {
+        this.showEditor = false
       }
     }
   }
@@ -114,6 +130,20 @@ export default {
     }
     &-text {
       padding: 5px;
+    }
+  }
+  .reply-editor {
+    min-height: 240px;
+    width: 100%;
+    margin: 8px auto;
+    display: flex;
+    flex-direction: column;
+    &-body {
+      height: 80%;
+      margin-bottom: 10px;
+    }
+    &-btn {
+      width: auto;
     }
   }
 }

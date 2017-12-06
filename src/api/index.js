@@ -18,7 +18,7 @@ export const getTopics = async (params = {}) => {
   }
 }
 
-export const getTipic = async (id, params = {}) => {
+export const getTopic = async (id, params = {}) => {
   try {
     const res = await fetcher.get(`topic/${id}`, { params })
     return res.data.data
@@ -139,6 +139,10 @@ export const addReplies = async (topicId, sendData) => {
   try {
     const res = await fetcher.post(`topic/${topicId}/replies`, sendData)
     if (res.data.success) {
+      Message.success({
+        showClose: true,
+        message: '回复成功！'
+      })
       return res.data.reply_id
     } else {
       Message.error({

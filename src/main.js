@@ -10,6 +10,7 @@ import 'vue-awesome/icons'
 
 import App from './App'
 import router from './router'
+import FormTopic from '@/components/FormTopic'
 
 // import '@/less/global'
 
@@ -24,6 +25,8 @@ Vue.prototype.$msgbox = MessageBox
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$prompt = MessageBox.prompt
 Vue.prototype.$msg = Message
+
+Vue.prototype.$bus = new Vue() // 事件中转
 
 window.moment = moment
 
@@ -43,6 +46,7 @@ Vue.filter('tagName', function (tag) {
 })
 // 全局组件
 Vue.component('icon', Icon)
+Vue.component('FormTopic', FormTopic)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
