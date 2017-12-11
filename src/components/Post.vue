@@ -85,6 +85,7 @@ export default {
       this.replies = replies
       this.showEditor = replies.length
       this.isCollect = data.is_collect
+      this.replyContent = ''
       this.publicMsg = {
         loginname: data.author.loginname,
         id: data.id
