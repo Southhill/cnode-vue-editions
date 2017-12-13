@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-<template>
-  <div class="home-container">
-    <ul class="topics"></ul>
-=======
 <template v-clock>
   <div class="home-container">
     <ul class="topics">
@@ -11,18 +6,10 @@
         </li>
     </ul>
     <posts :posts="topicsList"></posts>
->>>>>>> spa-dev
   </div>
 </template>
 
 <script>
-<<<<<<< HEAD
-export default {
-  name: 'home'
-}
-</script>
-
-=======
 import { getTopics } from '@/api/index'
 import Posts from '@/components/Posts'
 
@@ -103,4 +90,3 @@ export default {
   }
 }
 </style>
->>>>>>> spa-dev

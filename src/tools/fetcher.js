@@ -1,32 +1,20 @@
 import axios from 'axios'
 
-<<<<<<< HEAD
-import { baseUrl } from '@/constants/url.const.js'
-=======
 import { baseUrl } from '@/constants/url.const'
 import { serializeReqParams } from '@/tools/util'
->>>>>>> spa-dev
 
 let fetcher = axios.create({
     // method: 'post',
   baseURL: baseUrl,
-<<<<<<< HEAD
-  withCredentials: true,
-  method: 'get', // default
-    // timeout: 10000, // 超时设置
-=======
   withCredentials: false,
   method: 'get', // default
   timeout: 10000, // 超时设置
->>>>>>> spa-dev
   headers: {
     'Acces-Control-Allow-Origin': '*',
     'Content-Type': 'application/json'
   }
 })
 
-<<<<<<< HEAD
-=======
 fetcher.interceptors.request.use((config) => {
   const ak = sessionStorage.getItem('accessToken') || ''
   if (config.method === 'get') {
@@ -42,5 +30,4 @@ fetcher.interceptors.request.use((config) => {
   return config
 }, err => Promise.reject(err))
 
->>>>>>> spa-dev
 export default fetcher

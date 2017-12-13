@@ -1,31 +1,19 @@
 <template>
   <div id="app">
     <Top/>
-<<<<<<< HEAD
-    <router-view/>
-=======
     <router-view></router-view>
->>>>>>> spa-dev
   </div>
 </template>
 
 <script>
 import Top from '@/components/Top'
-<<<<<<< HEAD
-=======
-
->>>>>>> spa-dev
 export default {
   name: 'app',
   components: { Top }
 }
 </script>
 
-<<<<<<< HEAD
-<style>
-=======
 <style lang="less">
->>>>>>> spa-dev
 body {
   margin: 0;
 }
@@ -35,10 +23,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-<<<<<<< HEAD
-  background-color: #E1E1E1;
-  margin: 0 auto;
-=======
   background-color: #ffffff;
   margin: 0 auto;
   min-height: 100vh;
@@ -70,6 +54,5 @@ body {
       padding-bottom: 5px;
       border-bottom: 1px solid #F2F2F2;
     }
->>>>>>> spa-dev
 }
 </style>
