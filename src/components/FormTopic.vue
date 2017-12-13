@@ -62,6 +62,13 @@ export default {
       this.dialogFormVisible = status
     })
   },
+  async mounted () {
+    if (this.isEdit) {
+      const data = await getTopic(this.topicId, { mdrender: false })
+      const { title, tab, content } = data
+      this.formInput = { title, tab, content }
+    }
+  },
   watch: {
     'isEdit': async function (value) {
       if (value === true) {

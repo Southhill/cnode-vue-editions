@@ -9,7 +9,12 @@
           </div>
           <div class="reply-content-text" v-html="reply.content"></div>
           <div v-show="showEditor" class="reply-editor">
-            <vue-editor class="reply-editor-body" v-model="replyContent"></vue-editor>
+            <el-input
+              class="reply-editor-body"
+              type="textarea"
+              placeholder="请输入内容"
+              v-model="replyContent">
+            </el-input>
             <el-button class="reply-editor-btn" @click="handleReply()">回复</el-button>
           </div>
       </div>
@@ -37,6 +42,10 @@ export default {
     publicMsg: {
       type: Object,
       required: true
+    },
+    idx: {
+      type: Number,
+      required: true
     }
   },
   components: {
@@ -48,11 +57,12 @@ export default {
       showEditor: false,
       upsCount: 0,
       hadUps: this.reply.is_uped,
-      replyContent: `<a href="/user/${this.reply.author.loginname}">@${this.reply.author.loginname}</a>`
+      replyContent: ''
     }
   },
   mounted () {
     this.upsCount = this.reply.ups.length
+    this.replyContent = `<a href="/user/${this.reply.author.loginname}">@${this.reply.author.loginname}</a>`
   },
   methods: {
     toggleShowUps (status) {
@@ -74,7 +84,12 @@ export default {
       const id = await addReplies(this.publicMsg.id, { reply_id: this.reply.id, content: this.replyContent })
       if (id) {
         this.showEditor = false
+        this.$bus.$emit('updateTopic')
       }
+    },
+    changeContent (evt) {
+      const value = evt.target.value
+      this.replyContent = value
     }
   }
 }
@@ -108,6 +123,7 @@ export default {
   .reply-content {
     display: flex;
     flex-direction: column;
+    width: 80%;
     &-header {
       font-size: 13px;
       .name {
@@ -140,7 +156,9 @@ export default {
     flex-direction: column;
     &-body {
       height: 80%;
+      min-height: 100px;
       margin-bottom: 10px;
+      width: 100%;
     }
     &-btn {
       width: auto;

@@ -170,7 +170,6 @@ export const replyUps = async (replyId, sendData = {}) => {
         message: res.data.error_msg
       })
     }
-    return res.take.success
   } catch (error) {
     Message.error({
       showClose: true,

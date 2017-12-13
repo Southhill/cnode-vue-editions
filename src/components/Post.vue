@@ -5,26 +5,26 @@
           <span>发布于{{ topic.create_at | localeTime }} · 作者 <router-link tag="span" class="hoverline" :to="`/user/${topic.author.loginname}`">{{ topic.author.loginname }}</router-link> · {{ topic.visit_count }}次浏览 · 来自<router-link tag="span" class="hoverline" :to="{ name: 'home', query: { tab: topic.tab } }">{{ topic.tab | tagName }}</router-link></span>
           <span class="editForm-btn" v-if="isOwnTopic" @click="editForm"><i><icon name="edit" /></i></span>
           <el-button @click="setCollectTopic(topic.id, !isCollect)" v-if="hasOwner" :class="isCollect ? 'post-collected-btn' : 'post-collect-btn'">{{ isCollect ? '取消收藏' : ' 收藏 ' }}</el-button>
+          <form-topic :topicId="topic.id"></form-topic>
       </header>
       <article v-html="topic.content"></article>
       <section class="replies-container">
           <header class="reply-header">{{ topic.reply_count }} 回复数</header>
           <template v-if="topic.reply_count">
-              <reply v-for="(reply, index) in replies" :key="index" :reply="reply" :publicMsg="publicMsg"></reply>
+              <reply v-for="(reply, index) in replies" :key="index" :idx="index" :reply="reply" :publicMsg="publicMsg"></reply>                
               <div v-show="showEditor" class="reply-editor">
-                <vue-editor key="replyEditor" class="reply-editor-body" v-model="replyContent" placeholder="editorPlaceholder"></vue-editor>
+                <vue-editor key="replyEditor" class="reply-editor-body" v-model="replyContent" :placeholder="editorPlaceholder"></vue-editor>                  
                 <el-button class="reply-editor-btn" @click="handleReply()">回复</el-button>
               </div>
           </template>
           <template v-else>
             <div class="noreply">还没有回复，要不要消灭0回复惨案？<span class="like-link" @click="showEditor = true">回复</span></div>
             <div v-show="showEditor" class="reply-editor" @keyup.esc="showEditor = false">
-              <vue-editor key="noreplyEditor" class="reply-editor-body" v-model="replyContent" placeholder="editorPlaceholder"></vue-editor>
+              <vue-editor key="noreplyEditor" class="reply-editor-body" v-model="replyContent" :placeholder="editorPlaceholder"></vue-editor>
               <el-button class="reply-editor-btn" @click="handleReply()">回复</el-button>
             </div>
           </template>
       </section>
-      <form-topic :topicId="topic.id"></form-topic>
   </div>
 </template>
 <script>
@@ -57,6 +57,7 @@ export default {
   async created () {
     const id = this.$route.params.id
     await this.setTopic(id)
+    this.$bus.$on('updateTopic', await this.setTopic(id))
   },
   methods: {
     async setCollectTopic (id, toCollect) {
