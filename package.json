@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "A Vue.js project",
   "author": "Cao",
-  "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
@@ -15,8 +14,11 @@
   "dependencies": {
     "axios": "^0.17.1",
     "element-ui": "^2.0.5",
+    "moment": "^2.19.2",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-awesome": "^2.3.4",
+    "vue-router": "^3.0.1",
+    "vue2-editor": "^2.3.11"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -33,7 +35,7 @@
     "chalk": "^2.0.1",
     "copy-webpack-plugin": "^4.0.1",
     "cross-env": "^5.0.1",
-    "css-loader": "^0.28.0",
+    "css-loader": "^0.28.7",
     "eslint": "^3.19.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-friendly-formatter": "^3.0.0",
@@ -73,6 +75,7 @@
     "shelljs": "^0.7.6",
     "sinon": "^4.0.0",
     "sinon-chai": "^2.8.0",
+    "style-loader": "^0.19.0",
     "url-loader": "^0.5.8",
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.1",
