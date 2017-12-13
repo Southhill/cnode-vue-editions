@@ -1,8 +1,8 @@
 <template v-clock>
   <div class="home-container">
     <ul class="topics">
-        <li v-for="(topic, index) in topics" :class="{ active: index === activeTopicIdx }" :key="index" @click="changeTopic(topic.link, index)">
-          {{ topic.name }}
+        <li v-for="(topic, index) in topics" :class="{ active: index === activeTopicIdx }" :key="index">
+          <router-link :to="{ path: '/', query: { tab: topic.link } }" tag="span">{{ topic.name }}</router-link>
         </li>
     </ul>
     <posts :posts="topicsList"></posts>
@@ -34,6 +34,21 @@ export default {
     const tab = this.$route.query.tab || ''
     const data = await getTopics({ tab })
     this.topicsList = data
+  },
+  async mounted () {
+    const tab = this.$route.query.tab || ''
+    const data = await getTopics({ tab })
+    const idx = this.topics.findIndex(li => li.link === tab)
+    this.topicsList = data
+    this.activeTopicIdx = idx
+  },
+  watch: {
+    '$route.query.tab': async function (tab) {
+      const data = await getTopics({ tab })
+      const idx = this.topics.findIndex(li => li.link === tab)
+      this.topicsList = data
+      this.activeTopicIdx = idx
+    }
   },
   methods: {
     getTopicsList (params) {
