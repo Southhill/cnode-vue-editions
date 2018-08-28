@@ -1,6 +1,11 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+<<<<<<< HEAD
+import VueTouch from 'vue-touch'
+import vueRouter from 'vue-router'
+=======
+>>>>>>> spa
 
 import ElementUI, { MessageBox, Loading, Message } from 'element-ui'
 import * as moment from 'moment'
@@ -8,6 +13,10 @@ import * as moment from 'moment'
 import Icon from 'vue-awesome/components/Icon'
 import 'vue-awesome/icons'
 
+<<<<<<< HEAD
+Vue.use(vueRouter)
+Vue.use(VueTouch)
+=======
 import App from './App'
 import router from './router'
 import FormTopic from '@/components/FormTopic'
@@ -54,3 +63,4 @@ new Vue({
   template: '<App/>',
   components: { App }
 })
+>>>>>>> spa
