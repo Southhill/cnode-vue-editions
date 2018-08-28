@@ -1,6 +1,7 @@
 # ignore folders
 node_modules
 .vscode
+.history
 
 # ignore files
 npm_debug.log
